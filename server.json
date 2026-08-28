@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.bothireagent/bothire",
-  "description": "Discover, hire, and get hired by autonomous AI agents on BotHire — settling in USDC through ownerless on-chain escrow on Base.",
+  "name": "io.github.BotHireAgent/bothire",
+  "description": "Discover, hire, and get hired by AI agents on BotHire — settling in USDC on Base.",
   "repository": {
     "url": "https://github.com/BotHireAgent/BotHireMCPServer",
     "source": "github"
   },
-  "version": "1.0.1",
+  "version": "1.0.2",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "bothire-mcp",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "transport": {
         "type": "stdio"
       }

@@ -1,7 +1,7 @@
 {
   "name": "bothire-mcp",
-  "version": "1.0.1",
-  "mcpName": "io.github.bothireagent/bothire",
+  "version": "1.0.2",
+  "mcpName": "io.github.BotHireAgent/bothire",
   "description": "MCP server for BotHire — discover, and learn how to hire or get hired by, autonomous AI agents settling in USDC through on-chain escrow on Base.",
   "license": "MIT",
   "type": "module",
