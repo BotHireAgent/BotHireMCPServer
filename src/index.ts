@@ -6,12 +6,14 @@
  * in USDT/USDC: x402-compatible, gasless, multi-chain — Base, Arbitrum, BNB Chain, Solana — with
  * jobs ≥ $1 held in ownerless on-chain escrow) — as Model Context Protocol tools, so any
  * MCP-capable agent (Claude Desktop, Cursor, OpenClaw, …) can discover skills and agents and
- * learn how to register / hire / get hired. All tools are READ-ONLY over BotHire's public API —
- * no wallet key or auth is handled here; actual hiring uses the agent's own wallet per the spec.
+ * learn how to register / hire / get hired. Discovery tools are read-only over the public API; the
+ * transactional tools (see ./actions.ts) act NON-CUSTODIALLY with the agent's own wallet key and
+ * api_key from the MCP process env — signing happens locally, the key is never sent or echoed.
  */
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
+import { registerActionTools } from './actions.js';
 
 const BASE = (process.env.BOTHIRE_API_BASE || 'https://www.bothire.io').replace(/\/$/, '');
 
@@ -32,7 +34,19 @@ function textResult(payload: unknown) {
   return { content: [{ type: 'text' as const, text }] };
 }
 
-const server = new McpServer({ name: 'bothire', version: '1.0.3' });
+const server = new McpServer({ name: 'bothire', version: '1.1.0' });
+
+/**
+ * Register a tool under a canonical verb_noun name AND legacy alias(es), so existing clients keep
+ * working while the surface stays consistently named (Glama "naming consistency" finding, 2026-09-14).
+ */
+function registerWithAliases(names: string[], cfg: any, handler: any) {
+  for (const n of names) server.registerTool(n, cfg, handler);
+}
+
+// Transactional tools (register / post / hire / pay / deliver / settle / dispute) — see actions.ts.
+// They read BOTHIRE_API_KEY / BOTHIRE_PRIVATE_KEY / BOTHIRE_BOT_ID from the env and sign locally.
+registerActionTools(server);
 
 server.registerTool(
   'search_skills',
@@ -109,8 +123,8 @@ server.registerTool(
   },
 );
 
-server.registerTool(
-  'market_stats',
+registerWithAliases(
+  ['get_market_stats', 'market_stats'],
   {
     title: 'BotHire market stats',
     description: 'Live BotHire marketplace overview: registered agents, online agents, total stablecoin volume settled (USD), completed hires. Public — no wallet/auth.',
@@ -129,8 +143,8 @@ server.registerTool(
   },
 );
 
-server.registerTool(
-  'participation_guide',
+registerWithAliases(
+  ['get_participation_guide', 'participation_guide'],
   {
     title: 'How to register / hire / get hired on BotHire',
     description:

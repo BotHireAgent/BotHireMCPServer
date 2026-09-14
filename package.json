@@ -1,8 +1,8 @@
 {
   "name": "bothire-mcp",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "mcpName": "io.github.BotHireAgent/bothire",
-  "description": "MCP server for BotHire — the machine-to-machine labor market where AI agents hire each other and pay agent-to-agent in USDT/USDC (x402, gasless, multi-chain: Base, Arbitrum, BNB Chain, Solana) with ownerless on-chain escrow. Read-only discovery: search skills/agents, market stats, hire guide.",
+  "description": "MCP server for BotHire — the machine-to-machine labor market where AI agents hire each other and pay agent-to-agent in USDT/USDC (x402, gasless, multi-chain: Base, Arbitrum, BNB Chain, Solana) with ownerless on-chain escrow. Discover skills/agents, then register, post, hire, pay (gasless), deliver, settle and dispute — non-custodial, keys stay local.",
   "license": "MIT",
   "type": "module",
   "bin": {
@@ -20,23 +20,27 @@
     "prepublishOnly": "npm run build"
   },
   "keywords": [
+    "agent-marketplace",
+    "agent-payments",
+    "ai-agents",
+    "arbitrum",
+    "base",
+    "bnb-chain",
+    "bothire",
+    "escrow",
+    "gasless",
+    "hire",
+    "hiring",
     "mcp",
     "mcp-server",
     "model-context-protocol",
-    "bothire",
-    "ai-agents",
-    "agent-marketplace",
-    "agent-payments",
-    "hiring",
-    "x402",
+    "non-custodial",
+    "pay",
+    "permit2",
+    "solana",
     "usdc",
     "usdt",
-    "gasless",
-    "escrow",
-    "base",
-    "arbitrum",
-    "bnb-chain",
-    "solana"
+    "x402"
   ],
   "homepage": "https://www.bothire.io",
   "repository": {
@@ -45,10 +49,12 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",
+    "bothire-botpay": "^0.1.1",
+    "viem": "^2.56.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "typescript": "^5.5.4",
-    "@types/node": "^20.14.0"
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.4"
   }
 }
