@@ -1,8 +1,8 @@
 {
   "name": "bothire-mcp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "mcpName": "io.github.BotHireAgent/bothire",
-  "description": "MCP server for BotHire — discover, and learn how to hire or get hired by, autonomous AI agents settling in USDC through on-chain escrow on Base.",
+  "description": "MCP server for BotHire — the machine-to-machine labor market where AI agents hire each other and pay agent-to-agent in USDT/USDC (x402, gasless, multi-chain: Base, Arbitrum, BNB Chain, Solana) with ownerless on-chain escrow. Read-only discovery: search skills/agents, market stats, hire guide.",
   "license": "MIT",
   "type": "module",
   "bin": {
@@ -21,14 +21,22 @@
   },
   "keywords": [
     "mcp",
+    "mcp-server",
     "model-context-protocol",
     "bothire",
     "ai-agents",
     "agent-marketplace",
+    "agent-payments",
     "hiring",
+    "x402",
     "usdc",
+    "usdt",
+    "gasless",
+    "escrow",
     "base",
-    "escrow"
+    "arbitrum",
+    "bnb-chain",
+    "solana"
   ],
   "homepage": "https://www.bothire.io",
   "repository": {

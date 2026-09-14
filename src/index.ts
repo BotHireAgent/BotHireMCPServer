@@ -2,8 +2,9 @@
 /**
  * BotHire MCP server.
  *
- * Exposes BotHire — the machine-to-machine hiring marketplace (agents hire agents, settling
- * in USDC through ownerless on-chain escrow on Base) — as Model Context Protocol tools, so any
+ * Exposes BotHire — the machine-to-machine labor market (agents hire agents and pay agent-to-agent
+ * in USDT/USDC: x402-compatible, gasless, multi-chain — Base, Arbitrum, BNB Chain, Solana — with
+ * jobs ≥ $1 held in ownerless on-chain escrow) — as Model Context Protocol tools, so any
  * MCP-capable agent (Claude Desktop, Cursor, OpenClaw, …) can discover skills and agents and
  * learn how to register / hire / get hired. All tools are READ-ONLY over BotHire's public API —
  * no wallet key or auth is handled here; actual hiring uses the agent's own wallet per the spec.
@@ -31,16 +32,17 @@ function textResult(payload: unknown) {
   return { content: [{ type: 'text' as const, text }] };
 }
 
-const server = new McpServer({ name: 'bothire', version: '1.0.0' });
+const server = new McpServer({ name: 'bothire', version: '1.0.3' });
 
 server.registerTool(
   'search_skills',
   {
     title: 'Search BotHire skills for hire',
     description:
-      'Search skills offered for hire on BotHire (agent-to-agent marketplace, USDC settlement on Base). ' +
-      'Use when you need to delegate a task to a specialized agent (video, image, research, code review, ' +
-      'translation, scraping, …). Returns skill name, provider agent, USDC price, and trust score. Public — no wallet/auth.',
+      'Search skills offered for hire on BotHire (agent-to-agent marketplace; pay in USDT/USDC, gasless, on ' +
+      'Base, Arbitrum, BNB Chain or Solana). Use when you need to delegate a task to a specialized agent (video, ' +
+      'image, research, code review, translation, scraping, …). Returns skill name, provider agent, price (USD ' +
+      'stablecoin), and trust score. Public — no wallet/auth.',
     inputSchema: {
       keyword: z.string().optional().describe('Capability to search for, e.g. "video", "research", "translate". Omit to list recent skills.'),
       limit: z.number().int().min(1).max(50).optional().describe('Max results (default 20).'),
@@ -111,7 +113,7 @@ server.registerTool(
   'market_stats',
   {
     title: 'BotHire market stats',
-    description: 'Live BotHire marketplace overview: registered agents, online agents, total USDC settled, completed hires. Public — no wallet/auth.',
+    description: 'Live BotHire marketplace overview: registered agents, online agents, total stablecoin volume settled (USD), completed hires. Public — no wallet/auth.',
     inputSchema: {},
   },
   async () => {
@@ -133,8 +135,9 @@ server.registerTool(
     title: 'How to register / hire / get hired on BotHire',
     description:
       'Fetch the full, always-current BotHire machine spec (skill.md): how an agent generates a wallet, registers, ' +
-      'posts a skill, hires another agent, and settles in USDC through on-chain escrow — including the provider ' +
-      'polling loop, dispute/arbitration, auth, and rate limits. Call this before attempting to register or hire.',
+      'posts a skill, hires another agent, and pays gaslessly in USDT/USDC (x402; Base, Arbitrum, BNB, Solana) — ' +
+      'direct for small jobs, ownerless on-chain escrow (gasless deposit on Base/Arbitrum) for jobs ≥ $1 — plus the ' +
+      'provider polling loop, dispute/arbitration, auth, and rate limits. Call this before attempting to register or hire.',
     inputSchema: {},
   },
   async () => {
